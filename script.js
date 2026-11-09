@@ -30,7 +30,7 @@ const books = [
   { id: 12, title: "Komi Can't Communicate Vol. 1", author: "Tomohito Oda", cats: ["Comedy", "Romance"], price: 35000, old: 70000, rating: 4.6, sold: 640, image: "images/komi-cant-communicate-1.jpg", volumes: vols("komi-cant-communicate", [1, 31]), colors: ["#4338ca", "#c7d2fe"] }
 ];
 
-// Komentar contoh untuk tugas (ganti dengan komentar pembeli asli nanti): [nama, bintang 1-5, teks]
+// Komentar tiap manga: [nama, bintang 1-5, teks]
 const COMMENTS = {
   1: [
     ["RintaroEnjoyer", 5, "salam kenal gw suaminya rintaro"],
@@ -332,6 +332,32 @@ function setVol(i, scroll) {
   }
 }
 
+const recommendations = b => books
+  .filter(x => x.id !== b.id)
+  .sort((x, y) => y.cats.filter(c => b.cats.includes(c)).length - x.cats.filter(c => b.cats.includes(c)).length)
+  .slice(0, 8);
+
+const recCardHTML = b => `
+  <article class="rec-card" data-dopen="${b.id}">
+    ${coverHTML(b)}
+    <div class="rec-info">
+      <h4>${b.title}</h4>
+      <span class="price">${rp(b.price)}</span>
+    </div>
+  </article>`;
+
+function updateRec() {
+  const row = $("recRow");
+  const prev = document.querySelector("[data-recprev]");
+  const next = document.querySelector("[data-recnext]");
+  if (!row || !prev || !next) return;
+
+  prev.disabled = row.scrollLeft < 4;
+  next.disabled = row.scrollLeft + row.clientWidth >= row.scrollWidth - 4;
+}
+
+const scrollRec = dir => $("recRow").scrollBy({ left: dir * $("recRow").clientWidth * 0.8, behavior: "smooth" });
+
 function renderDetail(b) {
   const vs = getVolumes(b);
   const baseTitle = b.title.replace(/\s*Vol\.?\s*\d+\s*$/i, "");
@@ -402,7 +428,7 @@ function renderDetail(b) {
         <div class="d-vollist" id="dVolList" hidden>${volItems}</div>
 
         <section class="d-comments">
-          <h3>Komentar <small>contoh untuk tugas</small></h3>
+          <h3>Komentar</h3>
           ${(COMMENTS[b.id] || []).map(([name, stars, text]) => `
             <div class="cm">
               <div class="cm-top"><b>${name}</b><span class="d-stars">${starsHTML(stars)}</span></div>
@@ -410,6 +436,15 @@ function renderDetail(b) {
             </div>`).join("") || `<p class="cm-empty">Belum ada komentar.</p>`}
         </section>
       </div>
+
+      <section class="d-rec">
+        <h3>Mungkin kamu juga suka</h3>
+        <div class="rec-wrap">
+          <button type="button" class="d-arrow rec-prev" data-recprev aria-label="Geser ke kiri" disabled>&#10094;</button>
+          <div class="rec-row" id="recRow">${recommendations(b).map(recCardHTML).join("")}</div>
+          <button type="button" class="d-arrow rec-next" data-recnext aria-label="Geser ke kanan">&#10095;</button>
+        </div>
+      </section>
     </div>
 
     <div class="d-foot">
@@ -424,6 +459,9 @@ function renderDetail(b) {
       if (i !== detailVol) setVol(i, false);
     }, { passive: true });
   }
+
+  $("recRow").addEventListener("scroll", updateRec, { passive: true });
+  updateRec();
 }
 
 function openDetail(id) {
@@ -611,6 +649,12 @@ const ACTIONS = {
   dadd: id => addToCart(Number(id), detailVol),
   dshare: id => shareBook(Number(id)),
   dvol: i => setVol(Number(i), true),
+  dopen: id => {
+    renderDetail(bookById(Number(id)));
+    try { history.replaceState({ detail: Number(id) }, ""); } catch (e) {}
+  },
+  recprev: () => scrollRec(-1),
+  recnext: () => scrollRec(1),
   dprev: () => setVol(detailVol - 1, true),
   dnext: () => setVol(detailVol + 1, true),
 
