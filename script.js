@@ -30,6 +30,70 @@ const books = [
   { id: 12, title: "Komi Can't Communicate Vol. 1", author: "Tomohito Oda", cats: ["Comedy", "Romance"], price: 35000, old: 70000, rating: 4.6, sold: 640, image: "images/komi-cant-communicate-1.jpg", volumes: vols("komi-cant-communicate", [1, 31]), colors: ["#4338ca", "#c7d2fe"] }
 ];
 
+// Komentar contoh untuk tugas (ganti dengan komentar pembeli asli nanti): [nama, bintang 1-5, teks]
+const COMMENTS = {
+  1: [
+    ["RintaroEnjoyer", 5, "salam kenal gw suaminya rintaro"],
+    ["anakBaik", 5, "manga ini bikin iri orang jomblo"],
+    ["mbgWhen", 4, "kapan update min"],
+  ],
+  2: [
+    ["HaimiyaFans", 5, "scary dari mana min, lucu begini"],
+    ["siPalingRomcom", 4, "judulnya bikin penasaran"],
+    ["kucingoren", 5, "izin masuk klub penggemar"],
+  ],
+  3: [
+    ["MarinWife", 5, "marin kapan nikah sama saya"],
+    ["GojoSatoruKW", 5, "gojo hidupnya terlalu beruntung"],
+    ["wibuKecamatan", 4, "ini manga apa sumber kecemburuan"],
+  ],
+  4: [
+    ["AnjouEnjoyer", 5, "anjou supremacy"],
+    ["suamiAnjou", 4, "salam kenal gw suaminya anjou"],
+    ["bocahRandom", 5, "senyum anjou mahal banget"],
+  ],
+  5: [
+    ["AkutsuWife", 5, "mbak akutsu pulang dulu mbak"],
+    ["anakKos", 4, "rumah sendiri sudah tidak ada?"],
+    ["pulangDong", 5, "admin saya mau pesan satu rumah"],
+  ],
+  6: [
+    ["IchikawaFans", 5, "peak romance"],
+    ["YamadaEnjoyer", 5, "ichikawa menang banyak"],
+    ["peakRomance", 4, "manga ini bikin standar naik"],
+  ],
+  7: [
+    ["MinamiFans", 5, "hokkaido kapan buka cabang di bali"],
+    ["anakHokkaido", 4, "salam kenal gw suaminya minami"],
+    ["saljuBali", 5, "dingin di luar hangat di hati"],
+  ],
+  8: [
+    ["KuboEnjoyer", 5, "shiraishi tutorial cara jadi tidak terlihat"],
+    ["invisibleMan", 4, "kubo best girl"],
+    ["siPalingIntrovert", 5, "orangnya tidak terlihat tapi manganya terlihat di keranjang"],
+  ],
+  9: [
+    ["MedakaFans", 5, "bro punya pertahanan tingkat dewa"],
+    ["antiPesona", 4, "medaka tolong ajari saya"],
+    ["pertahananDewa", 5, "ini cowok kebal pesona apa kebal dunia"],
+  ],
+  10: [
+    ["MiyamuraFans", 5, "manga sejuta umat"],
+    ["HoriEnjoyer", 4, "sudah baca berkali-kali masih enak"],
+    ["rambutPanjang", 5, "miyamura rambut panjang terbaik"],
+  ],
+  11: [
+    ["JirouFans", 5, "judulnya saja sudah bikin bingung"],
+    ["AkariEnjoyer", 4, "akari kapan sadar min"],
+    ["statusHubungan", 5, "ini hubungan apa sebenarnya"],
+  ],
+  12: [
+    ["KomiFans", 5, "tadano orang paling sabar"],
+    ["TadanoEnjoyer", 4, "komi best girl no debat"],
+    ["pendiamAktif", 5, "admin ada kursus komunikasi tidak?"],
+  ],
+};
+
 const CATEGORY_ICONS = { Romance: "💕", Comedy: "😂", Isekai: "🌀", Action: "⚔️", Horror: "👻" };
 
 const $ = id => document.getElementById(id);
@@ -336,6 +400,15 @@ function renderDetail(b) {
           <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
         </button>
         <div class="d-vollist" id="dVolList" hidden>${volItems}</div>
+
+        <section class="d-comments">
+          <h3>Komentar <small>contoh untuk tugas</small></h3>
+          ${(COMMENTS[b.id] || []).map(([name, stars, text]) => `
+            <div class="cm">
+              <div class="cm-top"><b>${name}</b><span class="d-stars">${starsHTML(stars)}</span></div>
+              <p>${text}</p>
+            </div>`).join("") || `<p class="cm-empty">Belum ada komentar.</p>`}
+        </section>
       </div>
     </div>
 
