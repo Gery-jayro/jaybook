@@ -17,7 +17,7 @@ const vols = (slug, volumes) => {
 
 const books = [
   { id: 1, title: "Kaoru Hana wa Rin to Saku Vol. 1", author: "Saka Mikami", cats: ["Romance"], price: 45000, old: 52000, rating: 4.9, sold: 3120, image: "images/kaoru-hana-1.jpg", volumes: vols("kaoru-hana", 3), colors: ["#f9a8d4", "#fce7f3"] },
-  { id: 2, title: "Haimiya Is Scary Cute Vol. 1", author: "Haimiya", cats: ["Romance", "Comedy"], price: 42000, old: 48000, rating: 4.8, sold: 2740, image: "images/haimiya-1.jpg", volumes: vols("haimiya", 3), colors: ["#7c3aed", "#c4b5fd"] },
+  { id: 2, title: "Haimiya Is Scary Cute Vol. 1", author: "Haimiya", cats: ["Romance", "Comedy"], price: 42000, old: 48000, rating: 4.8, sold: 2740, image: "images/haimiya-1.jpg", volumes: vols("haimiya", 4), colors: ["#7c3aed", "#c4b5fd"] },
   { id: 3, title: "My Dress-Up Darling Vol. 1", author: "Shinichi Fukuda", cats: ["Romance", "Comedy"], price: 45000, rating: 4.8, sold: 2480, image: "images/my-dress-up-darling-1.jpg", volumes: vols("my-dress-up-darling", 3), colors: ["#fb7185", "#fecdd3"] },
   { id: 4, title: "Yancha Gal no Anjou-san Vol. 1", author: "Kagiri Araido", cats: ["Romance", "Comedy"], price: 47000, old: 54000, rating: 4.8, sold: 2260, image: "images/yancha-gal-no-anjou-san-1.jpg", volumes: vols("yancha-gal-no-anjou-san", 5), colors: ["#f97316", "#fed7aa"] },
   { id: 5, title: "Please Go Home, Miss Akutsu! Vol. 1", author: "Taichi Nagaoka", cats: ["Romance", "Comedy"], price: 43000, rating: 4.7, sold: 1380, image: "images/please-go-home-miss-akutsu-1.jpg", volumes: vols("please-go-home-miss-akutsu", 2), colors: ["#be185d", "#f9a8d4"] },
@@ -144,7 +144,7 @@ const cartItemHTML = i => {
 
   return `
     <div class="item">
-      <div class="item-cover" style="background:${gradientOf(b)}">
+      <div class="item-cover">
         ${image ? `<img src="${image}" alt="Sampul ${itemTitle(b, i)}" decoding="async" onerror="this.style.display='none'">` : ""}
       </div>
       <div>
